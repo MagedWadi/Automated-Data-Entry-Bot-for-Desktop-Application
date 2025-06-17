@@ -39,14 +39,25 @@ def fetch_posts():
 
 def open_notepad():
     try:
-        # Launch Notepad
         subprocess.Popen(["notepad.exe"])
-        time.sleep(2)  
+        time.sleep(2)  # Allow Notepad to open
+
+        # Try to locate the Notepad window visually using BotCity
+        bot.screenshot_path = "./assets"
+        found = bot.find("notepad_titlebar", matching=0.95, waiting_time=5000)
+        if found:
+            bot.click()  # Bring Notepad to focus
+            time.sleep(0.5)
+        else:
+            print("Could not find Notepad window on screen.")
+            bot.screenshot(f"notepad_not_found_post.png")
+            return False
     except Exception as e:
         print(f"Error launching Notepad: {e}")
         bot.screenshot(f"error_launching_Notepad.png")
         return False
     return True
+
 
 def type_blog_post(post):
     try:
