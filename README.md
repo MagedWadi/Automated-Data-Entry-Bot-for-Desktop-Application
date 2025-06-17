@@ -41,6 +41,7 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 ### 3. Install Dependencies
 ```bash
 pip install pyautogui requests
+pip install botcity-framework-core
 ```
 
 ▶️ Running the Bot
