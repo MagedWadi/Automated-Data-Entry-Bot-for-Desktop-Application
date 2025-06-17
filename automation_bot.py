@@ -3,10 +3,11 @@ import time
 import requests
 import pyautogui
 import subprocess
-
+from botcity.core import DesktopBot
 # Ensure pauses between actions
-pyautogui.PAUSE = 0.5
-
+pyautogui.PAUSE = 0.2
+bot = DesktopBot()
+bot.screenshot_path = "./assets"
 #Prepare the directory
 desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
 project_dir = os.path.join(desktop, 'tjm-project')
@@ -43,6 +44,7 @@ def open_notepad():
         time.sleep(2)  
     except Exception as e:
         print(f"Error launching Notepad: {e}")
+        bot.screenshot(f"error_launching_Notepad.png")
         return False
     return True
 
@@ -53,6 +55,7 @@ def type_blog_post(post):
         pyautogui.write(post['body'])
     except Exception as e:
         print(f"Error typing blog post: {e}")
+        bot.screenshot(f"error_typing_{post['id']}.png")
 
 def save_file(post_id):
     try:
@@ -67,7 +70,7 @@ def save_file(post_id):
         print(f"Error saving file: {e}")
 
 def close_notepad():
-    pyautogui.hotkey('alt', 'f4')
+    pyautogui.hotkey('ctrl', 'w')
     time.sleep(1)
 
 def main():
@@ -81,6 +84,7 @@ def main():
             close_notepad()
         else:
             print("Skipping this post due to Notepad error.")
+            bot.screenshot(f"error_post_{post['id']}.png")
 
 if __name__ == "__main__":
     main()
